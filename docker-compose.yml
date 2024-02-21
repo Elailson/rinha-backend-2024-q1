@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  rinha-postgres:
+    image: "postgres:alpine"
+    container_name: rinha-postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=rinha
+      - POSTGRES_USER=rinha_backend
+      - POSTGRES_PASSWORD=rinha_backend
+  
+#  rinha-api:
+#    image: "algorit/rinha-api:latest"
+#    container_name: rinha-api
+#
+#    environment:
+#      - DATABASE_SERVER=rinha-postgres
+#      - POSTGRES_DB=rinha
+#      - POSTGRES_USER=rinha_backend
+#      - POSTGRES_PASSWORD=rinha_backend
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - rinha-postgres
