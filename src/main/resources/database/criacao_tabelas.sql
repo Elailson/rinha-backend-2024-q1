@@ -1,13 +1,15 @@
-create table cliente(
-	id serial primary key,
-	limite integer not null,
-	saldo integer not null
+CREATE TABLE CLIENTE(
+	ID SERIAL PRIMARY KEY,
+	LIMITE INTEGER NOT NULL,
+	SALDO INTEGER NOT NULL
 );
 
-create table transacao(
-	id serial primary key,
-	valor integer not null,
-	tipo integer not null,
-	descricao varchar(10) not null,
-	realizada_em timestamp
+CREATE TABLE TRANSACAO(
+	ID SERIAL PRIMARY KEY,
+	VALOR INTEGER NOT NULL,
+	TIPO INTEGER NOT NULL,
+	DESCRICAO VARCHAR(10) NOT NULL,
+	REALIZADA_EM TIMESTAMP,
+	CLIENTE_ID INTEGER NOT NULL,
+	CONSTRAINT FK_CLIENTE_TRANSACAO FOREIGN KEY (CLIENTE_ID) REFERENCES CLIENTE(ID)
 );

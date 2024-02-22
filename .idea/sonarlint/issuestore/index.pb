@@ -31,3 +31,8 @@ q
 Asrc/main/java/com/elailson/rinha/exception/NotFoundException.java,3\5\35b200ee5c1a30dfbbdab1a12b2c38352a260423
 z
 Jsrc/main/java/com/elailson/rinha/exception/InsufficientLimitException.java,7\c\7cb838ce42b0e71f637186aa2667066ae97f0a5e
+n
+>src/main/java/com/elailson/rinha/dto/ExtratoSaldoResponse.java,7\f\7fc56d6a6ba04d62c78c32d37aedbcabeab9fe86
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

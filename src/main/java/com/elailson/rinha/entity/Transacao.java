@@ -9,6 +9,16 @@ public class Transacao {
     private String descricao;
     private LocalDateTime realizadaEm;
 
+    public Transacao() {
+
+    }
+
+    public Transacao(Integer valor, char tipo, String descricao) {
+        this.valor = valor;
+        this.tipo = tipo;
+        this.descricao = descricao;
+    }
+
     public Integer getValor() {
         return valor;
     }

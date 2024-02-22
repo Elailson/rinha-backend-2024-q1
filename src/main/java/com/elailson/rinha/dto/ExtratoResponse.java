@@ -7,6 +7,11 @@ public class ExtratoResponse {
     private ExtratoSaldoResponse saldo;
     private List<ExtratoTransacaoResponse> ultimasTransacoes;
 
+    public ExtratoResponse(ExtratoSaldoResponse saldo, List<ExtratoTransacaoResponse> ultimasTransacoes) {
+        this.saldo = saldo;
+        this.ultimasTransacoes = ultimasTransacoes;
+    }
+
     public ExtratoSaldoResponse getSaldo() {
         return saldo;
     }

@@ -9,6 +9,13 @@ public class ExtratoTransacaoResponse {
     private String descricao;
     private LocalDateTime realizadaEm;
 
+    public ExtratoTransacaoResponse(Integer valor, char tipo, String descricao, LocalDateTime realizadaEm) {
+        this.valor = valor;
+        this.tipo = tipo;
+        this.descricao = descricao;
+        this.realizadaEm = realizadaEm;
+    }
+
     public Integer getValor() {
         return valor;
     }
