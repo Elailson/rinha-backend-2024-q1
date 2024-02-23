@@ -1,14 +1,14 @@
 package com.elailson.rinha.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class ExtratoSaldoResponse {
 
     private Integer total;
     private Integer limite;
-    private LocalDateTime dataExtrato;
+    private Instant dataExtrato;
 
-    public ExtratoSaldoResponse(Integer total, Integer limite, LocalDateTime dataExtrato) {
+    public ExtratoSaldoResponse(Integer total, Integer limite, Instant dataExtrato) {
         this.total = total;
         this.limite = limite;
         this.dataExtrato = dataExtrato;
@@ -30,11 +30,11 @@ public class ExtratoSaldoResponse {
         this.limite = limite;
     }
 
-    public LocalDateTime getDataExtrato() {
+    public Instant getDataExtrato() {
         return dataExtrato;
     }
 
-    public void setDataExtrato(LocalDateTime dataExtrato) {
+    public void setDataExtrato(Instant dataExtrato) {
         this.dataExtrato = dataExtrato;
     }
 

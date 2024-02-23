@@ -1,19 +1,19 @@
 package com.elailson.rinha.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class Transacao {
 
     private Integer valor;
-    private char tipo;
+    private String tipo;
     private String descricao;
-    private LocalDateTime realizadaEm;
+    private Instant realizadaEm;
 
     public Transacao() {
 
     }
 
-    public Transacao(Integer valor, char tipo, String descricao) {
+    public Transacao(Integer valor, String tipo, String descricao) {
         this.valor = valor;
         this.tipo = tipo;
         this.descricao = descricao;
@@ -27,11 +27,11 @@ public class Transacao {
         this.valor = valor;
     }
 
-    public char getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(char tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -43,11 +43,11 @@ public class Transacao {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getRealizadaEm() {
+    public Instant getRealizadaEm() {
         return realizadaEm;
     }
 
-    public void setRealizadaEm(LocalDateTime realizadaEm) {
+    public void setRealizadaEm(Instant realizadaEm) {
         this.realizadaEm = realizadaEm;
     }
 

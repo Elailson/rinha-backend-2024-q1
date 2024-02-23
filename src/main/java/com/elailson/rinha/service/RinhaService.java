@@ -9,13 +9,13 @@ import com.elailson.rinha.exception.InsufficientLimitException;
 import com.elailson.rinha.exception.NotFoundException;
 import com.elailson.rinha.repository.RinhaRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 public class RinhaService {
 
-    private static final char CREDITO = 'c';
-    private static final char DEBITO = 'd';
+    private static final String CREDITO = "c";
+    private static final String DEBITO = "d";
 
     private final RinhaRepository repository;
 
@@ -26,33 +26,43 @@ public class RinhaService {
     public Cliente process(Transacao transacao, Integer clienteId) throws NotFoundException {
         Cliente cliente = repository.findClienteById(clienteId);
 
-        if (transacao.getTipo() == CREDITO) {
-            return saveTransactionAndUpdateSaldoCliente(transacao, clienteId, (cliente.getSaldo() + transacao.getValor()));
+        if (CREDITO.equals(transacao.getTipo())) {
+            Integer newSaldo = (cliente.getSaldo() + transacao.getValor());
+            saveTransactionAndUpdateSaldoCliente(transacao, clienteId, newSaldo);
+            cliente.setSaldo(newSaldo);
+
+            return cliente;
         }
 
-        if (transacao.getTipo() == DEBITO) {
-            if (Math.abs(transacao.getValor() + cliente.getSaldo()) > cliente.getLimite())
-                throw new InsufficientLimitException("Limite insuficiente para completar transação.");
+        if (DEBITO.equals(transacao.getTipo())) {
+            if (cliente.getSaldo() >= transacao.getValor() ||
+                    (Math.abs(transacao.getValor()) + Math.abs(cliente.getSaldo())) <= cliente.getLimite()) {
+                Integer newSaldo = (cliente.getSaldo() - transacao.getValor());
+                saveTransactionAndUpdateSaldoCliente(transacao, clienteId, newSaldo);
+                cliente.setSaldo(newSaldo);
 
-            return saveTransactionAndUpdateSaldoCliente(transacao, clienteId, (cliente.getSaldo() - transacao.getValor()));
+                return cliente;
+            }
+
+            throw new InsufficientLimitException("Limite insuficiente para completar transação.");
         }
 
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Essa exception nunca será lançada");
     }
 
     public ExtratoResponse getExtrato(Integer clienteId) {
         Cliente cliente = repository.findClienteById(clienteId);
         ExtratoSaldoResponse extratoSaldo =
-                new ExtratoSaldoResponse(cliente.getSaldo(), cliente.getLimite(), LocalDateTime.now());
+                new ExtratoSaldoResponse(cliente.getSaldo(), cliente.getLimite(), Instant.now());
 
         List<ExtratoTransacaoResponse> extratoTransacoes = repository.findLastTenTransacoesByClienteId(clienteId);
 
         return new ExtratoResponse(extratoSaldo, extratoTransacoes);
     }
 
-    private Cliente saveTransactionAndUpdateSaldoCliente(Transacao transacao, Integer clienteId, Integer saldo) {
-        repository.saveTransacao(transacao);
-        return repository.updateSaldoCliente(clienteId, saldo);
+    private void saveTransactionAndUpdateSaldoCliente(Transacao transacao, Integer clienteId, Integer saldo) {
+        repository.saveTransacao(transacao, clienteId);
+        repository.updateSaldoCliente(clienteId, saldo);
     }
 
 }

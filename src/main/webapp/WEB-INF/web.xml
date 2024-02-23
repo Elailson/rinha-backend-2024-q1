@@ -6,6 +6,6 @@
     <display-name>Rinha de Backend - 2024/Q1</display-name>
     <servlet>
         <servlet-name>clienteController</servlet-name>
-        <servlet-class>com.elailson.rinha.controller.ClienteController</servlet-class>
+        <servlet-class>com.elailson.rinha.controller.RinhaController</servlet-class>
     </servlet>
 </web-app>

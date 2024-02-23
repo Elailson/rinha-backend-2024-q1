@@ -5,7 +5,9 @@ import com.elailson.rinha.entity.Transacao;
 import com.elailson.rinha.exception.InsufficientLimitException;
 import com.elailson.rinha.exception.NotFoundException;
 import com.elailson.rinha.service.RinhaService;
+import com.elailson.rinha.util.GsonInstantTypeAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,24 +16,27 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.Instant;
 
 @WebServlet(urlPatterns = {"/clientes", "/clientes/*"})
-public class ClienteController extends HttpServlet {
+public class RinhaController extends HttpServlet {
 
-    private static final char CREDITO = 'c';
-    private static final char DEBITO = 'd';
+    private static final String CREDITO = "c";
+    private static final String DEBITO = "d";
 
     private final transient RinhaService service;
     private final transient Gson gson;
 
-    public ClienteController() {
+    public RinhaController() {
         this.service = new RinhaService();
-        this.gson = new Gson();
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(Instant.class, new GsonInstantTypeAdapter())
+                .create();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Integer paramId = extractFromPathExtrato(req.getServletPath());
+        Integer paramId = extractFromPathExtrato(req.getPathInfo());
 
         if (paramId <= 0) resp.setStatus(404);
 
@@ -46,7 +51,7 @@ public class ClienteController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Transacao request = convert(req);
 
-        Integer paramId = extractFromPath(req.getServletPath());
+        Integer paramId = extractFromPath(req.getPathInfo());
 
         if (isRequestInvalid(request, paramId)) {
             resp.setStatus(400);
@@ -85,10 +90,10 @@ public class ClienteController extends HttpServlet {
     }
 
     private boolean isRequestInvalid(Transacao request, Integer id) {
-        if (request.getTipo() != CREDITO || request.getTipo() != DEBITO) return false;
-        if (request.getDescricao().length() > 10) return false;
-        if (request.getValor() <= 0) return false;
-        return id >= 1;
+        if (!CREDITO.equals(request.getTipo()) && !DEBITO.equals(request.getTipo())) return true;
+        if (request.getDescricao().length() > 10) return true;
+        if (request.getValor() <= 0) return true;
+        return id <= 0;
     }
 
 }

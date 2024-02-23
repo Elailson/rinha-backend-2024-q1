@@ -1,15 +1,15 @@
 package com.elailson.rinha.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class ExtratoTransacaoResponse {
 
     private Integer valor;
     private char tipo;
     private String descricao;
-    private LocalDateTime realizadaEm;
+    private Instant realizadaEm;
 
-    public ExtratoTransacaoResponse(Integer valor, char tipo, String descricao, LocalDateTime realizadaEm) {
+    public ExtratoTransacaoResponse(Integer valor, char tipo, String descricao, Instant realizadaEm) {
         this.valor = valor;
         this.tipo = tipo;
         this.descricao = descricao;
@@ -40,11 +40,11 @@ public class ExtratoTransacaoResponse {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getRealizadaEm() {
+    public Instant getRealizadaEm() {
         return realizadaEm;
     }
 
-    public void setRealizadaEm(LocalDateTime realizadaEm) {
+    public void setRealizadaEm(Instant realizadaEm) {
         this.realizadaEm = realizadaEm;
     }
 
